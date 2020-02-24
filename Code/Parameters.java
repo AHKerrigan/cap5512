@@ -70,7 +70,7 @@ public class Parameters
 		seed = Long.parseLong(parmInput.readLine().substring(30).trim());
 		numGenes = Integer.parseInt(parmInput.readLine().substring(30).trim());
 		geneSize = Integer.parseInt(parmInput.readLine().substring(30).trim());
-		ordFlag = Boolean.parseBoolean(parmInput.readLine().substring(30).trim();
+		ordFlag = Boolean.parseBoolean(parmInput.readLine().substring(30).trim());
 
 		parmInput.close();
 
