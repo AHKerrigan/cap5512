@@ -38,5 +38,7 @@ public class CityReader
 			Point point = new Point(storing[i][0], Double.valueOF(storing[i][1]).longValue(), Double.valueOF(storing[i][2]).longValue());
 			cities.add(point);
 		}				
+		
+		sc.close();
 	}
 }
