@@ -49,6 +49,8 @@ public class Search {
 	public static double defaultBest;
 	public static double defaultWorst;
 
+	public static ArrayList<Point> cities;
+
 	public static double averageRawFitness;
 	public static double stdevRawFitness;
 
@@ -64,7 +66,6 @@ public class Search {
 
 	private static double fitnessStats[][];  // 0=Avg, 1=Best
 	
-	ArrayList<Point> cities;
 	
 
 /*******************************************************************************
@@ -89,7 +90,7 @@ public class Search {
 	//  Read Parameter File
 		System.out.println("\nParameter File Name is: " + args[0] + "\n");
 		Parameters parmValues = new Parameters(args[0]);
-		ArrayList<Point> cities = new CityReader(args[1]);
+		cities = new CityReader(args[1]);
 
 	//  Write Parameters To Summary Output File
 		String summaryFileName = Parameters.expID + "_summary.txt";

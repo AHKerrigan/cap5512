@@ -35,9 +35,15 @@ class FitnessFunction{
 
 //  COMPUTE A CHROMOSOME'S RAW FITNESS *************************************
 
-	public void doRawFitness(Chromo X){
-		System.out.println("Executing FF Raw Fitness");
+	public long dis(Point a, Point b) {
+		return Math.sqrt((a.x * a) + (b * b));
 	}
+
+	public void doRawFitness(Chromo X){
+		X.rawFitness = 0;
+		for (int i = 0; i < Parameters.geneSize - 1; i++) {
+			X.rawFitness += ()
+		}
 
 //  PRINT OUT AN INDIVIDUAL GENE TO THE SUMMARY FILE *********************************
 
