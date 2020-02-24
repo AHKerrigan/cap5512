@@ -31,7 +31,7 @@ public class Search {
 	public static int bestOfGenR;
 	public static int bestOfGenG;
 	//public static Chromo bestOfRunChromo;
-	public static Chromo bestOfRunChromo;
+	public static TSPChromo bestOfRunChromo;
 	
 	public static int bestOfRunR;
 	public static int bestOfRunG;
@@ -63,6 +63,9 @@ public class Search {
 	private static double TmemberFitness;
 
 	private static double fitnessStats[][];  // 0=Avg, 1=Best
+	
+	ArrayList<Point> cities;
+	
 
 /*******************************************************************************
 *                              CONSTRUCTORS                                    *
@@ -86,6 +89,7 @@ public class Search {
 	//  Read Parameter File
 		System.out.println("\nParameter File Name is: " + args[0] + "\n");
 		Parameters parmValues = new Parameters(args[0]);
+		ArrayList<Point> cities = new CityReader(args[1]);
 
 	//  Write Parameters To Summary Output File
 		String summaryFileName = Parameters.expID + "_summary.txt";
@@ -117,11 +121,11 @@ public class Search {
 		r.setSeed(Parameters.seed);
 		memberIndex = new int[Parameters.popSize];
 		memberFitness = new double[Parameters.popSize];
-		member = new Chromo[Parameters.popSize];
-		child = new Chromo[Parameters.popSize];
-		bestOfGenChromo = new Chromo();
-		bestOfRunChromo = new Chromo();
-		bestOverAllChromo = new Chromo();
+		member = new TSPChromo[Parameters.popSize];
+		child = new TSPChromo[Parameters.popSize];
+		bestOfGenChromo = new TSPChromo();
+		bestOfRunChromo = new TSPChromo();
+		bestOverAllChromo = new TSPChromo();
 
 		if (Parameters.minORmax.equals("max")){
 			defaultBest = 0;
@@ -142,8 +146,8 @@ public class Search {
 
 			//	Initialize First Generation
 			for (int i=0; i<Parameters.popSize; i++){
-				member[i] = new Chromo();
-				child[i] = new Chromo();
+				member[i] = new TSPChromo();
+				child[i] = new TSPChromo();
 			}
 
 			//	Begin Each Run
@@ -170,34 +174,34 @@ public class Search {
 
 					if (Parameters.minORmax.equals("max")){
 						if (member[i].rawFitness > bestOfGenChromo.rawFitness){
-							Chromo.copyB2A(bestOfGenChromo, member[i]);
+							TSPChromo.copyB2A(bestOfGenChromo, member[i]);
 							bestOfGenR = R;
 							bestOfGenG = G;
 						}
 						if (member[i].rawFitness > bestOfRunChromo.rawFitness){
-							Chromo.copyB2A(bestOfRunChromo, member[i]);
+							TSPChromo.copyB2A(bestOfRunChromo, member[i]);
 							bestOfRunR = R;
 							bestOfRunG = G;
 						}
 						if (member[i].rawFitness > bestOverAllChromo.rawFitness){
-							Chromo.copyB2A(bestOverAllChromo, member[i]);
+							TSPChromo.copyB2A(bestOverAllChromo, member[i]);
 							bestOverAllR = R;
 							bestOverAllG = G;
 						}
 					}
 					else {
 						if (member[i].rawFitness < bestOfGenChromo.rawFitness){
-							Chromo.copyB2A(bestOfGenChromo, member[i]);
+							TSPChromo.copyB2A(bestOfGenChromo, member[i]);
 							bestOfGenR = R;
 							bestOfGenG = G;
 						}
 						if (member[i].rawFitness < bestOfRunChromo.rawFitness){
-							Chromo.copyB2A(bestOfRunChromo, member[i]);
+							TSPChromo.copyB2A(bestOfRunChromo, member[i]);
 							bestOfRunR = R;
 							bestOfRunG = G;
 						}
 						if (member[i].rawFitness < bestOverAllChromo.rawFitness){
-							Chromo.copyB2A(bestOverAllChromo, member[i]);
+							TSPChromo.copyB2A(bestOverAllChromo, member[i]);
 							bestOverAllR = R;
 							bestOverAllG = G;
 						}
@@ -331,20 +335,20 @@ public class Search {
 				for (int i=0; i<Parameters.popSize; i=i+2){
 
 					//	Select Two Parents
-					parent1 = Chromo.selectParent();
+					parent1 = TSPChromo.selectParent();
 					parent2 = parent1;
 					while (parent2 == parent1){
-						parent2 = Chromo.selectParent();
+						parent2 = TSPChromo.selectParent();
 					}
 
 					//	Crossover Two Parents to Create Two Children
 					randnum = r.nextDouble();
 					if (randnum < Parameters.xoverRate){
-						Chromo.mateParents(parent1, parent2, member[parent1], member[parent2], child[i], child[i+1]);
+						TSPChromo.mateParents(parent1, parent2, member[parent1], member[parent2], child[i], child[i+1]);
 					}
 					else {
-						Chromo.mateParents(parent1, member[parent1], child[i]);
-						Chromo.mateParents(parent2, member[parent2], child[i+1]);
+						TSPChromo.mateParents(parent1, member[parent1], child[i]);
+						TSPChromo.mateParents(parent2, member[parent2], child[i+1]);
 					}
 				} // End Crossover
 
@@ -355,7 +359,7 @@ public class Search {
 
 				//	Swap Children with Last Generation
 				for (int i=0; i<Parameters.popSize; i++){
-					Chromo.copyB2A(member[i], child[i]);
+					TSPChromo.copyB2A(member[i], child[i]);
 				}
 
 			} //  Repeat the above loop for each generation

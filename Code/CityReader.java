@@ -35,7 +35,7 @@ public class CityReader
 		
 		for(int i=0; i<storing.length; i++)
 		{
-			Point point = new Point(storing[i][0], storing[i][1], storing[i][2],);
+			Point point = new Point(storing[i][0], Double.valueOF(storing[i][1]).longValue(), Double.valueOF(storing[i][2]).longValue());
 			cities.add(point);
 		}
 		
