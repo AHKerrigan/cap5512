@@ -107,6 +107,8 @@ public class TSPChromo
 
 	//  Mutate a Chromosome Based on Mutation Type *****************************
 
+	// Previous implementation 
+	/**
 	public void doMutation(){
 
 		String mutChromo = "";
@@ -130,6 +132,18 @@ public class TSPChromo
 
 		default:
 			System.out.println("ERROR - No mutation method selected");
+		}
+	}
+	**/
+	public void doMutation() {
+		if (Parameters.ordflag == false) {
+			for (int i = 0; i < this.chromo.size(); i++) {
+				randnum = Search.r.nextDouble();
+				if (randnum < Parameters.mutationRate) {
+					int j = Search.r.nextInt(this.chromo.size());
+
+				}
+			}
 		}
 	}
 
