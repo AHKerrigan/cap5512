@@ -6,7 +6,7 @@ public class CityReader
 {
 	//instance variables
 	public static int numberCities;
-	public static ArrayList<Point> cities = new ArrayList();
+	public static ArrayList<Point> cities = new ArrayList();	
 	
 	public CityReader(String cityfilename) throws java.io.IOException
 	{
@@ -37,10 +37,5 @@ public class CityReader
 		{
 			Point point = new Point(storing[i][0], Double.valueOF(storing[i][1]).longValue(), Double.valueOF(storing[i][2]).longValue());
 			cities.add(point);
-		}
-		
-		return point;
-		
-		
-		
+		}				
 	}
