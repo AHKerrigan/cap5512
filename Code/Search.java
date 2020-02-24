@@ -90,7 +90,7 @@ public class Search {
 	//  Read Parameter File
 		System.out.println("\nParameter File Name is: " + args[0] + "\n");
 		Parameters parmValues = new Parameters(args[0]);
-		cities = new CityReader(args[1]);
+		cities = new CityReader(args[1]).cities;
 
 	//  Write Parameters To Summary Output File
 		String summaryFileName = Parameters.expID + "_summary.txt";
