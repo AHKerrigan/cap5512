@@ -136,13 +136,13 @@ public class TSPChromo
 	}
 	**/
 	public void doMutation() {
-		if (Parameters.ordflag == false) {
-			for (int i = 0; i < this.chromo.size(); i++) {
-				randnum = Search.r.nextDouble();
-				if (randnum < Parameters.mutationRate) {
-					int j = Search.r.nextInt(this.chromo.size());
 
-				}
+		// Simple swap mutation, valid for both path and ordinal representaiton
+		for (int i = 0; i < this.chromo.size(); i++) {
+			randnum = Search.r.nextDouble();
+			if (randnum < Parameters.mutationRate) {
+				int j = Search.r.nextInt(this.chromo.size());
+				Collections.swap(this.chromo, i, j);
 			}
 		}
 	}
@@ -184,11 +184,12 @@ public class TSPChromo
 
 	//  Produce a new child from two parents  **********************************
 
-	public static void mateParents(int pnum1, int pnum2, Chromo parent1, Chromo parent2, Chromo child1, Chromo child2){
+	public static void mateParents(int pnum1, int pnum2, TSPChromo parent1, TSPChromo parent2, TSPChromo child1, TSPChromo child2){
 
 		int xoverPoint1;
 		int xoverPoint2;
 
+		/**
 		switch (Parameters.xoverType){
 
 		case 1:     //  Single Point Crossover
@@ -208,7 +209,48 @@ public class TSPChromo
 		default:
 			System.out.println("ERROR - Bad crossover method selected");
 		}
+		**/
+		
+		xoverPoint1 = Search.r.nextInt(Parameters.geneSize);
+		xoverPoint2 = Search.r.nextInt((Parameters.geneSize - xoverPoint1) + 1) + xoverPoint1 + 1;
 
+		if (Parameters.ordFlag) {
+			
+
+			for (int i = 0; i <= xoverPoint1; i++) {
+				child1.chromo.add(i, parent2.chromo.get(i));
+				child2.chromo.add(i, parent1.chromo.get(i));
+			}
+			for (int i = xoverPoint1 + 1; i < Parameters.geneSize - 1; i++) {
+				child1.chromo.add(i, parent1.chromo.get(i));
+				child2.chromo.add(i, parent2.chromo.get(i));
+			}
+
+		}
+		else {
+			HashSet<Integer> temp1 = new HashSet<Integer>();
+			HashSet<Integer> temp2 = new HashSet<Integer>();
+			for (int i = xoverPoint1; i <= xoverPoint2; i++) {
+				child1.chromo.add(i, parent1.chromo.get(i));
+				child2.chromo.add(i, parent2.chromo.get(i))
+				temp1.add(parent1.chromo.get(i));
+				temp2.add(parent2.chromo.get(i));
+			}
+
+			for (int chidx = 0, i = 0, j = 0; chidx < Parameters.geneSize; chidx++) {
+				if (chidx < xoverPoint1 || chidx > xoverPoint2) {
+					while (temp1.contains(parent2.chromo.get(j))) {
+						j++;
+					}
+					child1.chromo.add(chidx, parent2.chromo.get(j));
+
+					while (temp2.contains(parent1.chromo.get(i))) {
+						i++;
+					}
+					child2.chromo.add(chidx, parent1.chromo.get(i));
+				}
+			}
+		}
 		//  Set fitness values back to zero
 		child1.rawFitness = -1;   //  Fitness not yet evaluated
 		child1.sclFitness = -1;   //  Fitness not yet scaled
