@@ -26,7 +26,7 @@ public class Search {
 	public static TSPChromo[] child;
 
 	//public static Chromo bestOfGenChromo;
-	public static TSPChromo[] bestOfGenChromo;
+	public static TSPChromo bestOfGenChromo;
 	
 	public static int bestOfGenR;
 	public static int bestOfGenG;
@@ -113,6 +113,9 @@ public class Search {
 		}
 		else if (Parameters.problemType.equals("OM")){
 				problem = new OneMax();
+		}
+		else if (Parameters.problemType.equals("TSP")) {
+				problem = new TSP();
 		}
 		else System.out.println("Invalid Problem Type");
 
