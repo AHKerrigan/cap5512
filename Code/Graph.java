@@ -10,3 +10,4 @@ public class Graph
 		this.average = average;
 		this. stdDev = stdDev;
 	}
+}
