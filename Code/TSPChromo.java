@@ -212,8 +212,8 @@ public class TSPChromo
 		**/
 		
 		xoverPoint1 = Search.r.nextInt(Parameters.geneSize);
-		xoverPoint2 = Search.r.nextInt((Parameters.geneSize - xoverPoint1) + 1) + xoverPoint1 + 1;
-
+		xoverPoint2 = Search.r.nextInt((Parameters.geneSize - xoverPoint1) + 1) + xoverPoint1 - 1;
+		
 		if (Parameters.ordflag) {
 			
 
@@ -229,6 +229,7 @@ public class TSPChromo
 		}
 		else {
 			HashSet<Integer> temp1 = new HashSet<Integer>();
+			//System.out.println(xoverPoint1 + " " + xoverPoint2);
 			HashSet<Integer> temp2 = new HashSet<Integer>();
 			for (int i = xoverPoint1; i <= xoverPoint2; i++) {
 				child1.chromo.add(i, parent1.chromo.get(i));
