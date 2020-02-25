@@ -1,10 +1,10 @@
 public class Graph
 {
-	public long best;
-	public long average;
-	public long stdDev;
+	public double best;
+	public double average;
+	public double stdDev;
 	
-	public Graph (long best, long average, long stdDev)
+	public Graph (double best, double average, double stdDev)
 	{
 		this.best = best;
 		this.average = average;

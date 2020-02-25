@@ -50,6 +50,9 @@ public class Search {
 	public static double defaultWorst;
 
 	public static List<Point> cities;
+	public static ArrayList<List<Graph>> graphRuns;
+	public static ArrayList<Graph> graphGens;
+	public static int genSize;
 
 	public static double averageRawFitness;
 	public static double stdevRawFitness;
@@ -86,7 +89,10 @@ public class Search {
 
 		Calendar dateAndTime = Calendar.getInstance(); 
 		Date startTime = dateAndTime.getTime();
-
+	//	Set up output file
+		graphRuns = new ArrayList<List<Graph>>();
+		graphGens = new ArrayList<Graph>();
+		
 	//  Read Parameter File
 		System.out.println("\nParameter File Name is: " + args[0] + "\n");
 		Parameters parmValues = new Parameters(args[0]);
@@ -219,7 +225,8 @@ public class Search {
 							);
 
 				// Output generation statistics to screen
-				System.out.println(R + "\t" + G +  "\t" + (int)bestOfGenChromo.rawFitness + "\t" + averageRawFitness + "\t" + stdevRawFitness);
+				//System.out.println(R + "\t" + G +  "\t" + (int)bestOfGenChromo.rawFitness + "\t" + averageRawFitness + "\t" + stdevRawFitness);
+				graphGens.add(new Graph((int)bestOfGenChromo.rawFitness, averageRawFitness, stdevRawFitness));
 
 				// Output generation statistics to summary file
 				summaryOutput.write(" R ");
@@ -367,10 +374,12 @@ public class Search {
 
 			//problem.doPrintGenes(bestOfRunChromo, summaryOutput);
 
-			System.out.println(R + "\t" + "B" + "\t"+ (int)bestOfRunChromo.rawFitness);
-
-		} //End of a Run
-
+			//System.out.println(R + "\t" + "B" + "\t"+ (int)bestOfRunChromo.rawFitness);
+			graphRuns.add((ArrayList<Graph>)graphGens.clone());
+			genSize = graphGens.size();
+			graphGens.clear();
+			
+		} //End of a Run		
 		Hwrite.left("B", 8, summaryOutput);
 
 		//problem.doPrintGenes(bestOverAllChromo, summaryOutput);
@@ -386,6 +395,65 @@ public class Search {
 
 		summaryOutput.write("\n");
 		summaryOutput.close();
+		
+		
+		String graphFileName = args[1] + "_output.txt";
+		FileWriter graphOutput = new FileWriter(graphFileName);
+		
+		//graphOutput.write("TEST");
+		
+		
+		
+		double tmpBest = 0;
+		double tmpAverage = 0;
+		double tmpStdDev = 0;
+		
+		//System.out.println("Best averages per Run \n");
+		graphOutput.write("Best\n");
+		for(int i=0;i<genSize;i++)
+		{
+			for(int j=0;j<graphRuns.size();j++)
+			{
+				tmpBest += graphRuns.get(j).get(i).best;
+			}
+			tmpBest = tmpBest / graphRuns.size();
+			//System.out.println(tmpBest);
+			graphOutput.write(tmpBest + "\n");
+			tmpBest = 0;
+		}
+		
+		
+		//System.out.println("Average averages per Run \n");
+		graphOutput.write("\nAverage\n");
+		for(int i=0;i<genSize;i++)
+		{
+			for(int j=0;j<graphRuns.size();j++)
+			{
+				tmpAverage += graphRuns.get(j).get(i).average;
+			}
+			tmpAverage = tmpAverage / graphRuns.size();
+			//System.out.println(tmpAverage);	
+			graphOutput.write(tmpAverage+"\n");
+			tmpAverage = 0;
+		}		
+
+
+		//System.out.println("Std Dev averages per Run \n");
+		graphOutput.write("\nStd Dev\n");
+		for(int i=0;i<genSize;i++)
+		{
+			for(int j=0;j<graphRuns.size();j++)
+			{
+				tmpStdDev += graphRuns.get(j).get(i).stdDev;
+			}		
+			tmpStdDev = tmpStdDev / graphRuns.size();
+			//System.out.println(tmpStdDev);
+			graphOutput.write(tmpStdDev+"\n");
+			tmpStdDev = 0;
+		}
+		
+		graphOutput.close();
+
 
 		System.out.println();
 		System.out.println("Start:  " + startTime);
