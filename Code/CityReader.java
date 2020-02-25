@@ -6,20 +6,23 @@ public class CityReader
 {
 	//instance variables
 	public static int numberCities;
-	public static ArrayList<Point> cities = new ArrayList();	
+	public static List<Point> cities = new ArrayList();	
 	
 	public CityReader(String cityfilename) throws java.io.IOException
 	{
+		cities = new ArrayList<Point>();
 		File file = new File(cityfilename);
-		Scanner sc = new Scanner(file);
-		storing = new ArrayList<String[]>();
+		Scanner sc = new Scanner(file);	
+		ArrayList<String[]> storing = new ArrayList<String[]>();
 		String nextValue = null;
+		String tmp = null;
 		while(sc.hasNextLine())
 		{
 			String line = sc.nextLine();
 			if(line.contains("DIMENSION"))
 			{				
-				numberCities = sc.nextInt();
+				tmp = line;
+				numberCities = Integer.parseInt(line.substring(line.indexOf(":") + 2));
 			}
 				
 			if(line.contains("NODE_COORD_SECTION"))
@@ -27,16 +30,18 @@ public class CityReader
 				while(sc.hasNextLine())
 				{
 					nextValue = sc.nextLine();
-					storing.add(nextValue.trim().split(" "));
+					if(!nextValue.contains("EOF"))
+						storing.add(nextValue.trim().split(" "));
 				}
 			}
 				
 		}
 		
-		for(int i=0; i<storing.length; i++)
+		sc.close();
+		
+		for(int i=0; i<storing.size(); i++)
 		{
-			Point point = new Point(storing[i][0], Double.valueOF(storing[i][1]).longValue(), Double.valueOF(storing[i][2]).longValue());
-			cities.add(point);
+			cities.add(new Point(Integer.parseInt(storing.get(i)[0]), Double.valueOf(storing.get(i)[1]).longValue(), Double.valueOf(storing.get(i)[2]).longValue()));
 		}				
 		
 		sc.close();
