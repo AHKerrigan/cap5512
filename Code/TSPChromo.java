@@ -38,7 +38,7 @@ public class TSPChromo
 		Random rand = new Random();
 		if (ordflag) {
 			for (int i = 0; i < Parameters.geneSize; i++) {
-				chromo.add(rand.nextInt(Parameters.geneSize));
+				chromo.add(1);
 			}
 		}	
 		else {
@@ -107,34 +107,6 @@ public class TSPChromo
 
 	//  Mutate a Chromosome Based on Mutation Type *****************************
 
-	// Previous implementation 
-	/**
-	public void doMutation(){
-
-		String mutChromo = "";
-		char x;
-
-		switch (Parameters.mutationType){
-
-		case 1:     //  Replace with new random number
-
-			for (int j=0; j<(Parameters.geneSize * Parameters.numGenes); j++){
-				x = this.chromo.charAt(j);
-				randnum = Search.r.nextDouble();
-				if (randnum < Parameters.mutationRate){
-					if (x == '1') x = '0';
-					else x = '1';
-				}
-				mutChromo = mutChromo + x;
-			}
-			this.chromo = mutChromo;
-			break;
-
-		default:
-			System.out.println("ERROR - No mutation method selected");
-		}
-	}
-	**/
 	public void doMutation() {
 
 		// Simple swap mutation, valid for both path and ordinal representaiton
@@ -189,28 +161,6 @@ public class TSPChromo
 		int xoverPoint1;
 		int xoverPoint2;
 
-		/**
-		switch (Parameters.xoverType){
-
-		case 1:     //  Single Point Crossover
-
-			//  Select crossover point
-			xoverPoint1 = 1 + (int)(Search.r.nextDouble() * (Parameters.numGenes * Parameters.geneSize-1));
-
-			//  Create child chromosome from parental material
-			child1.chromo = parent1.chromo.substring(0,xoverPoint1) + parent2.chromo.substring(xoverPoint1);
-			child2.chromo = parent2.chromo.substring(0,xoverPoint1) + parent1.chromo.substring(xoverPoint1);
-			break;
-
-		case 2:     //  Two Point Crossover
-
-		case 3:     //  Uniform Crossover
-
-		default:
-			System.out.println("ERROR - Bad crossover method selected");
-		}
-		**/
-		
 		xoverPoint1 = Search.r.nextInt(Parameters.geneSize);
 		xoverPoint2 = Search.r.nextInt((Parameters.geneSize - xoverPoint1) + 1) + xoverPoint1 - 1;
 		
@@ -244,11 +194,13 @@ public class TSPChromo
 						j++;
 					}
 					child1.chromo.add(chidx, parent2.chromo.get(j));
+					temp1.add(parent2.chromo.get(j));
 
 					while (temp2.contains(parent1.chromo.get(i))) {
 						i++;
 					}
 					child2.chromo.add(chidx, parent1.chromo.get(i));
+					temp2.add(parent1.chromo.get(i));
 				}
 			}
 		}

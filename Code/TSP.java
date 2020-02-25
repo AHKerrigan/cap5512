@@ -32,7 +32,6 @@ public class TSP extends FitnessFunction{
 *******************************************************************************/
 
 public long dis(Point a, Point b) {
-	//System.out.println("Thing is " + a.x + " " + a.y + " " + b.x + " " + b.y);
 	long retval =  (long)Math.sqrt(Math.pow((a.x - b.x), 2) + Math.pow((a.x - b.x), 2));
 	return retval;
 }
@@ -57,6 +56,7 @@ public void doRawFitness(TSPChromo X){
 		}
 	}
 	else {
+		//System.out.println();
 		for (int i = 0; i < Parameters.geneSize - 1; i++) {
 			X.rawFitness += dis(Search.cities.get(X.chromo.get(i)), Search.cities.get(X.chromo.get(i + 1)));
 		}
