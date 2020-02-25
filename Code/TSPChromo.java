@@ -181,29 +181,38 @@ public class TSPChromo
 			HashSet<Integer> temp1 = new HashSet<Integer>();
 			//System.out.println(xoverPoint1 + " " + xoverPoint2);
 			HashSet<Integer> temp2 = new HashSet<Integer>();
+
+			// Copy over to the children
 			for (int i = xoverPoint1; i <= xoverPoint2; i++) {
 				child1.chromo.add(i, parent1.chromo.get(i));
 				child2.chromo.add(i, parent2.chromo.get(i));
 				temp1.add(parent1.chromo.get(i));
 				temp2.add(parent2.chromo.get(i));
 			}
-
-			for (int chidx = 0, i = 0, j = 0; chidx < Parameters.geneSize; chidx++) {
-				if (chidx < xoverPoint1 || chidx > xoverPoint2) {
-					while (temp1.contains(parent2.chromo.get(j))) {
-						j++;
-					}
-					child1.chromo.add(chidx, parent2.chromo.get(j));
-					temp1.add(parent2.chromo.get(j));
-
-					while (temp2.contains(parent1.chromo.get(i))) {
-						i++;
-					}
-					child2.chromo.add(chidx, parent1.chromo.get(i));
-					temp2.add(parent1.chromo.get(i));
+			// Do child 1
+			for (int i = 0, j = 0; i < Parameters.geneSize; i++) {
+				if (i >= xoverPoint1 && i <= xoverPoint2) {
+					continue;
 				}
+				while (temp1.contains(parent2.chromo.get(j))) {
+					j++;
+				}
+				child1.chromo.add(i, parent2.chromo.get(j));
+				temp1.add(parent2.chromo.get(j));
+			}
+			// Do child 2
+			for (int i = 0, j = 0; i < Parameters.geneSize; i++) {
+				if (i >= xoverPoint1 && i <= xoverPoint2) {
+					continue;
+				}
+				while (temp2.contains(parent1.chromo.get(j))) {
+					j++;
+				}
+				child2.chromo.add(i, parent1.chromo.get(j));
+				temp2.add(parent1.chromo.get(j));
 			}
 		}
+
 		//  Set fitness values back to zero
 		child1.rawFitness = -1;   //  Fitness not yet evaluated
 		child1.sclFitness = -1;   //  Fitness not yet scaled
