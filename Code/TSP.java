@@ -32,7 +32,9 @@ public class TSP extends FitnessFunction{
 *******************************************************************************/
 
 public long dis(Point a, Point b) {
-	return (long)Math.sqrt(Math.pow((a.x - b.x), 2) + Math.pow((a.x - b.x), 2));
+	//System.out.println("Thing is " + a.x + " " + a.y + " " + b.x + " " + b.y);
+	long retval =  (long)Math.sqrt(Math.pow((a.x - b.x), 2) + Math.pow((a.x - b.x), 2));
+	return retval;
 }
 
 public TSPChromo ordmap(TSPChromo X) {
@@ -48,18 +50,19 @@ public TSPChromo ordmap(TSPChromo X) {
 }
 
 public void doRawFitness(TSPChromo X){
-	if (Parameters.ordFlag) {
+	if (Parameters.ordflag) {
 		TSPChromo temp = ordmap(X);
-		for (int i = 0; i < Parameters.geneSize - 1; i++) {
-			X.rawFitness += dis(Search.cities.get(temp.chromo.get(i)), Search.cities.get(temp.chromo.get(i)));
+		for (int i = 0; i < Parameters.geneSize - 2; i++) {
+			X.rawFitness += dis(Search.cities.get(temp.chromo.get(i)), Search.cities.get(temp.chromo.get(i + 1)));
 		}
 	}
 	else {
 		for (int i = 0; i < Parameters.geneSize - 1; i++) {
-			X.rawFitness += dis(Search.cities.get(X.chromo.get(i)), Search.cities.get(X.chromo.get(i)));
+			X.rawFitness += dis(Search.cities.get(X.chromo.get(i)), Search.cities.get(X.chromo.get(i + 1)));
 		}
 	}
-
+	//System.out.println("fitness is "  + X.rawFitness);
+}
 //  PRINT OUT AN INDIVIDUAL GENE TO THE SUMMARY FILE *********************************
 
 public void doPrintGenes(TSPChromo X, FileWriter output) throws java.io.IOException{

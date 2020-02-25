@@ -17,7 +17,7 @@ public class TSPChromo
 	public double rawFitness;
 	public double sclFitness;
 	public double proFitness;
-	public Boolean ordflag;
+	public boolean ordflag;
 
 /*******************************************************************************
 *                            INSTANCE VARIABLES                                *
@@ -29,11 +29,11 @@ public class TSPChromo
 *                              CONSTRUCTORS                                    *
 *******************************************************************************/
 
-	public TSPChromo({
+	public TSPChromo(){
 
 		//  Set gene values to a randum sequence of 1's and 0's
 		char geneBit;
-		this.ordflag = Parameters.ordflag
+		this.ordflag = Parameters.ordflag;
 		this.chromo = new ArrayList<Integer>();
 		Random rand = new Random();
 		if (ordflag) {
@@ -214,7 +214,7 @@ public class TSPChromo
 		xoverPoint1 = Search.r.nextInt(Parameters.geneSize);
 		xoverPoint2 = Search.r.nextInt((Parameters.geneSize - xoverPoint1) + 1) + xoverPoint1 + 1;
 
-		if (Parameters.ordFlag) {
+		if (Parameters.ordflag) {
 			
 
 			for (int i = 0; i <= xoverPoint1; i++) {
@@ -232,7 +232,7 @@ public class TSPChromo
 			HashSet<Integer> temp2 = new HashSet<Integer>();
 			for (int i = xoverPoint1; i <= xoverPoint2; i++) {
 				child1.chromo.add(i, parent1.chromo.get(i));
-				child2.chromo.add(i, parent2.chromo.get(i))
+				child2.chromo.add(i, parent2.chromo.get(i));
 				temp1.add(parent1.chromo.get(i));
 				temp2.add(parent2.chromo.get(i));
 			}
@@ -262,7 +262,7 @@ public class TSPChromo
 
 	//  Produce a new child from a single parent  ******************************
 
-	public static void mateParents(int pnum, Chromo parent, Chromo child){
+	public static void mateParents(int pnum, TSPChromo parent, TSPChromo child){
 
 		//  Create child chromosome from parental material
 		child.chromo = parent.chromo;
@@ -275,7 +275,7 @@ public class TSPChromo
 
 	//  Copy one chromosome to another  ***************************************
 
-	public static void copyB2A (Chromo targetA, Chromo sourceB){
+	public static void copyB2A (TSPChromo targetA, TSPChromo sourceB){
 
 		targetA.chromo = sourceB.chromo;
 

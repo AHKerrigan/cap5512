@@ -22,13 +22,13 @@ public class Search {
 	public static Chromo[] member;
 	public static Chromo[] child;
 
-	public static Chromo bestOfGenChromo;
+	public static TSPChromo bestOfGenChromo;
 	public static int bestOfGenR;
 	public static int bestOfGenG;
-	public static Chromo bestOfRunChromo;
+	public static TSPChromo bestOfRunChromo;
 	public static int bestOfRunR;
 	public static int bestOfRunG;
-	public static Chromo bestOverAllChromo;
+	public static TSPChromo bestOverAllChromo;
 	public static int bestOverAllR;
 	public static int bestOverAllG;
 

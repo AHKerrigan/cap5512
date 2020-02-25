@@ -6,7 +6,7 @@ public class CityReader
 {
 	//instance variables
 	public static int numberCities;
-	public static List<Point> cities = new ArrayList();	
+	public static ArrayList<Point> cities = new ArrayList<Point>();	
 	
 	public CityReader(String cityfilename) throws java.io.IOException
 	{

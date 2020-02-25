@@ -17,7 +17,7 @@ public class Search {
 *                           STATIC VARIABLES                                   *
 *******************************************************************************/
 
-	public static FitnessFunction problem;
+	public static TSP problem;
 
 	//public static Chromo[] member;
 	//public static Chromo[] child;
@@ -49,7 +49,7 @@ public class Search {
 	public static double defaultBest;
 	public static double defaultWorst;
 
-	public static ArrayList<Point> cities;
+	public static List<Point> cities;
 
 	public static double averageRawFitness;
 	public static double stdevRawFitness;
@@ -107,17 +107,11 @@ public class Search {
 	//	Problem Specific Setup - For new new fitness function problems, create
 	//	the appropriate class file (extending FitnessFunction.java) and add
 	//	an else_if block below to instantiate the problem.
- 
-		if (Parameters.problemType.equals("NM")){
-				problem = new NumberMatch();
-		}
-		else if (Parameters.problemType.equals("OM")){
-				problem = new OneMax();
-		}
-		else if (Parameters.problemType.equals("TSP")) {
+		
+		if (Parameters.problemType.equals("TSP")) {
 				problem = new TSP();
 		}
-		else System.out.println("Invalid Problem Type");
+		else System.out.println("Invalid Problem Type " + Parameters.problemType);
 
 		System.out.println(problem.name);
 
@@ -371,7 +365,7 @@ public class Search {
 			Hwrite.left(bestOfRunR, 4, summaryOutput);
 			Hwrite.right(bestOfRunG, 4, summaryOutput);
 
-			problem.doPrintGenes(bestOfRunChromo, summaryOutput);
+			//problem.doPrintGenes(bestOfRunChromo, summaryOutput);
 
 			System.out.println(R + "\t" + "B" + "\t"+ (int)bestOfRunChromo.rawFitness);
 
@@ -379,7 +373,7 @@ public class Search {
 
 		Hwrite.left("B", 8, summaryOutput);
 
-		problem.doPrintGenes(bestOverAllChromo, summaryOutput);
+		//problem.doPrintGenes(bestOverAllChromo, summaryOutput);
 
 		//	Output Fitness Statistics matrix
 		summaryOutput.write("Gen                 AvgFit              BestFit \n");

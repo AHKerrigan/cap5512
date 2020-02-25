@@ -35,13 +35,13 @@ class FitnessFunction{
 
 //  COMPUTE A CHROMOSOME'S RAW FITNESS *************************************
 
-	public void doRawFitness(Chromo X){
+	public void doRawFitness(TSPChromo X){
 		return;
 	}
 
 //  PRINT OUT AN INDIVIDUAL GENE TO THE SUMMARY FILE *********************************
 
-	public void doPrintGenes(Chromo X, FileWriter output) throws java.io.IOException{
+	public void doPrintGenes(TSPChromo X, FileWriter output) throws java.io.IOException{
 		System.out.println("Executing FF Gene Output");
 	}
 

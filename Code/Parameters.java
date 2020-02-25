@@ -5,6 +5,9 @@
 
 import java.io.*;
 import java.util.*;
+
+//import sun.net.www.content.audio.basic;
+
 import java.text.*;
 
 public class Parameters
@@ -39,7 +42,7 @@ public class Parameters
 	public static int numGenes;
 	public static int geneSize;
 	
-	public static boolean ordFlag;
+	public static boolean ordflag;
 
 /*******************************************************************************
 *                              CONSTRUCTORS                                    *
@@ -70,7 +73,7 @@ public class Parameters
 		seed = Long.parseLong(parmInput.readLine().substring(30).trim());
 		numGenes = Integer.parseInt(parmInput.readLine().substring(30).trim());
 		geneSize = Integer.parseInt(parmInput.readLine().substring(30).trim());
-		ordFlag = Boolean.parseBoolean(parmInput.readLine().substring(30).trim());
+		ordflag = Boolean.parseBoolean(parmInput.readLine().substring(30).trim());
 
 		parmInput.close();
 
