@@ -36,16 +36,10 @@ public class TSPChromo
 		this.ordflag = Parameters.ordflag;
 		this.chromo = new ArrayList<Integer>();
 		Random rand = new Random();
-		if (ordflag) {
-			for (int i = 0; i < Parameters.geneSize; i++) {
-				chromo.add(1);
-			}
-		}	
-		else {
-			for (int i = 0; i < Parameters.geneSize; i++) {
-				chromo.add(i);
-			}
+		for (int i = 0; i < Parameters.geneSize; i++) {
+			this.chromo.add(i);
 		}
+		Collections.shuffle(this.chromo);
 
 		this.rawFitness = -1;   //  Fitness not yet evaluated
 		this.sclFitness = -1;   //  Fitness not yet scaled
@@ -91,7 +85,7 @@ public class TSPChromo
 	//  Get Integer Value of a Gene (Positive only) ****************************
 
 	/**
-	public int getPosIntGeneValue(int geneID){
+	public int getPosIntGeneValue(int geneID){ 
 		String geneAlpha = "";
 		int geneValue;
 		char geneBit;
@@ -161,19 +155,25 @@ public class TSPChromo
 		int xoverPoint1;
 		int xoverPoint2;
 
-		xoverPoint1 = Search.r.nextInt(Parameters.geneSize);
-		xoverPoint2 = Search.r.nextInt((Parameters.geneSize - xoverPoint1) + 1) + xoverPoint1 - 1;
+		int tempi1 = (int)(Math.random() * Parameters.geneSize);
+		int tempi2 = (int)(Math.random() * Parameters.geneSize);
+
+		xoverPoint1 = Math.min(tempi1, tempi2);
+		xoverPoint2 = Math.max(tempi1, tempi2);
+
+		//System.out.println(xoverPoint1 + " " + xoverPoint2);
 		
 		if (Parameters.ordflag) {
-			
 
-			for (int i = 0; i <= xoverPoint1; i++) {
-				child1.chromo.add(i, parent2.chromo.get(i));
-				child2.chromo.add(i, parent1.chromo.get(i));
-			}
-			for (int i = xoverPoint1 + 1; i < Parameters.geneSize - 1; i++) {
-				child1.chromo.add(i, parent1.chromo.get(i));
-				child2.chromo.add(i, parent2.chromo.get(i));
+			for (int i = 0; i < Parameters.geneSize; i++) {
+				if (i < xoverPoint1 || i > xoverPoint2) {
+					child1.chromo.add(i, parent2.chromo.get(i));
+					child2.chromo.add(i, parent1.chromo.get(i));
+				}
+				else {
+					child2.chromo.add(i, parent2.chromo.get(i));
+					child1.chromo.add(i, parent1.chromo.get(i));
+				}
 			}
 
 		}
@@ -181,29 +181,31 @@ public class TSPChromo
 			HashSet<Integer> temp1 = new HashSet<Integer>();
 			//System.out.println(xoverPoint1 + " " + xoverPoint2);
 			HashSet<Integer> temp2 = new HashSet<Integer>();
-			for (int i = xoverPoint1; i <= xoverPoint2; i++) {
+
+			for (int i = xoverPoint1; i < xoverPoint2; i++) {
 				child1.chromo.add(i, parent1.chromo.get(i));
-				child2.chromo.add(i, parent2.chromo.get(i));
 				temp1.add(parent1.chromo.get(i));
+				child2.chromo.add(i, parent2.chromo.get(i));
 				temp2.add(parent2.chromo.get(i));
 			}
 
-			for (int chidx = 0, i = 0, j = 0; chidx < Parameters.geneSize; chidx++) {
-				if (chidx < xoverPoint1 || chidx > xoverPoint2) {
-					while (temp1.contains(parent2.chromo.get(j))) {
-						j++;
-					}
-					child1.chromo.add(chidx, parent2.chromo.get(j));
+			for (int i = 0, j = 0, k = 0; i < Parameters.geneSize; i++) {
+				if (i < xoverPoint1 || i >= xoverPoint2) {
+
+					// Find the city for child 1
+					for (; temp1.contains(parent2.chromo.get(j)); j++);
+					child1.chromo.add(i, parent2.chromo.get(j));
 					temp1.add(parent2.chromo.get(j));
 
-					while (temp2.contains(parent1.chromo.get(i))) {
-						i++;
-					}
-					child2.chromo.add(chidx, parent1.chromo.get(i));
-					temp2.add(parent1.chromo.get(i));
+					// Find the city for child 2
+					for (; temp2.contains(parent1.chromo.get(k)); k++);
+					child2.chromo.add(i, parent1.chromo.get(k));
+					temp2.add(parent1.chromo.get(k));
+
 				}
 			}
 		}
+
 		//  Set fitness values back to zero
 		child1.rawFitness = -1;   //  Fitness not yet evaluated
 		child1.sclFitness = -1;   //  Fitness not yet scaled
@@ -212,7 +214,7 @@ public class TSPChromo
 		child2.sclFitness = -1;   //  Fitness not yet scaled
 		child2.proFitness = -1;   //  Fitness not yet proportionalized
 	}
-
+ 
 	//  Produce a new child from a single parent  ******************************
 
 	public static void mateParents(int pnum, TSPChromo parent, TSPChromo child){
@@ -222,7 +224,7 @@ public class TSPChromo
 
 		//  Set fitness values back to zero
 		child.rawFitness = -1;   //  Fitness not yet evaluated
-		child.sclFitness = -1;   //  Fitness not yet scaled
+		child.sclFitness = -1;   //  Fitness not yet  scaled
 		child.proFitness = -1;   //  Fitness not yet proportionalized
 	}
 
